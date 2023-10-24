@@ -22,18 +22,28 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 	// struct diatas kita parsing menjadi parameter service
 
 	var input user.RegisterUserInput
-
 	err := c.ShouldBindJSON(&input)
+
 	if err != nil {
-		c.JSON(http.StatusBadRequest, nil)
+
+		var errors = helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+
+		response := helper.ApiResponse("Registered account failed", http.StatusUnprocessableEntity, "errors", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
 	}
 
-	user, err := h.userService.RegisterUser(input)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, nil)
+	newUser, err := h.userService.RegisterUser(input)
+
+	if true {
+		response := helper.ApiResponse("Registered account failed", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
 	}
 
-	response := helper.ApiResponse("Account has be registered", http.StatusOK, "success", user)
+	formatter := user.FormatterUser(newUser, "tokeennnnnnnnnnn")
+	response := helper.ApiResponse("Account has be registered", http.StatusOK, "success", formatter)
 
 	c.JSON(http.StatusOK, response)
 }
