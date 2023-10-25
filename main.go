@@ -4,7 +4,6 @@ import (
 	"bwastartup/auth"
 	"bwastartup/handler"
 	"bwastartup/user"
-	"fmt"
 
 	"log"
 
@@ -24,8 +23,6 @@ func main() {
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
 	authService := auth.NewService()
-	fmt.Println(authService.GenerateToken(30))
-
 	userHandler := handler.NewUserHandler(userService, authService)
 
 	router := gin.Default()
