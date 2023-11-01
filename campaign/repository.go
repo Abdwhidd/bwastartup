@@ -1,10 +1,13 @@
 package campaign
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type Repository interface {
 	FindAll() ([]Campaign, error)
 	FindByUserId(userId int) ([]Campaign, error)
+	FindById(Id int) (Campaign, error)
 }
 
 type repository struct {
@@ -33,4 +36,21 @@ func (r *repository) FindByUserId(userId int) ([]Campaign, error) {
 		return campaigns, err
 	}
 	return campaigns, nil
+}
+
+func (r *repository) FindById(Id int) (Campaign, error) {
+	var campaign Campaign
+
+	// errUser := r.db.AutoMigrate(&user.User{})
+	// if errUser != nil {
+	// 	panic("migration failed")
+	// }
+
+	err := r.db.Preload("User").Preload("CampaignImages").Where("id = ?", Id).Find(&campaign).Error
+	if err != nil {
+		return campaign, err
+	}
+
+	return campaign, nil
+
 }
