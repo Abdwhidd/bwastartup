@@ -9,6 +9,7 @@ type Repository interface {
 	FindByUserId(userId int) ([]Campaign, error)
 	FindById(Id int) (Campaign, error)
 	Save(campaign Campaign) (Campaign, error)
+	Update(campaign Campaign) (Campaign, error)
 }
 
 type repository struct {
@@ -42,22 +43,23 @@ func (r *repository) FindByUserId(userId int) ([]Campaign, error) {
 func (r *repository) FindById(Id int) (Campaign, error) {
 	var campaign Campaign
 
-	// errUser := r.db.AutoMigrate(&user.User{})
-	// if errUser != nil {
-	// 	panic("migration failed")
-	// }
-
 	err := r.db.Preload("User").Preload("CampaignImages").Where("id = ?", Id).Find(&campaign).Error
 	if err != nil {
 		return campaign, err
 	}
-
 	return campaign, nil
-
 }
 
 func (r *repository) Save(campaign Campaign) (Campaign, error) {
 	err := r.db.Create(&campaign).Error
+	if err != nil {
+		return campaign, err
+	}
+	return campaign, nil
+}
+
+func (r *repository) Update(campaign Campaign) (Campaign, error) {
+	err := r.db.Save(&campaign).Error
 	if err != nil {
 		return campaign, err
 	}

@@ -17,7 +17,7 @@ type Campaign struct {
 	BackerCount      int
 	Slug             string
 	CreatedAt        time.Time `gorm:"default:CURRENT_TIMESTAMP()"`
-	UpdatedAt        time.Time `gorm:"default:CURRENT_TIMESTAMP()"`
+	UpdateAt         time.Time `gorm:"default:CURRENT_TIMESTAMP()"`
 	CampaignImages   []CampaignImage
 	User             user.User
 }
