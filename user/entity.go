@@ -12,6 +12,6 @@ type User struct {
 	PasswordHash   string    `json:"password_hash"`
 	AvatarFileName string    `json:"avatar_file_name"`
 	Role           string    `json:"role"`
-	CreatedAt      time.Time `json:"created_at" `
-	UpdateAt       time.Time `json:"update_at"`
+	CreatedAt      time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP()"`
+	UpdateAt       time.Time `json:"update_at" gorm:"default:CURRENT_TIMESTAMP()"`
 }

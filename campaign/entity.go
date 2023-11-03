@@ -16,8 +16,8 @@ type Campaign struct {
 	Perks            string
 	BackerCount      int
 	Slug             string
-	CreatedAt        time.Time
-	UpdatedAt        time.Time
+	CreatedAt        time.Time `gorm:"default:CURRENT_TIMESTAMP()"`
+	UpdatedAt        time.Time `gorm:"default:CURRENT_TIMESTAMP()"`
 	CampaignImages   []CampaignImage
 	User             user.User
 }
