@@ -134,14 +134,16 @@ func (h *campaignHandler) UploadImage(c *gin.Context) {
 		return
 	}
 
+	currentUser := c.MustGet("currentUser").(user.User)
+	input.User = currentUser
+	userId := currentUser.Id
+
 	file, err := c.FormFile("file")
 	if err != nil {
 		handleUploadError(c, "Failed to upload campaign image")
 		return
 	}
 
-	currentUser := c.MustGet("currentUser").(user.User)
-	userId := currentUser.Id
 	path := fmt.Sprintf("images/%d-%s", userId, file.Filename)
 
 	err = c.SaveUploadedFile(file, path)
