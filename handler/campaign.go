@@ -127,13 +127,6 @@ func (h *campaignHandler) UploadImage(c *gin.Context) {
 		return
 	}
 
-	if !input.IsPrimary {
-		errorMessage := gin.H{"errors": "IsPrimary field is required and must be true"}
-		response := helper.ApiResponse("Failed to upload campaign image:", http.StatusBadRequest, "error", errorMessage)
-		c.JSON(http.StatusBadRequest, response)
-		return
-	}
-
 	currentUser := c.MustGet("currentUser").(user.User)
 	input.User = currentUser
 	userId := currentUser.Id
