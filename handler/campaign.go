@@ -33,7 +33,7 @@ func (h *campaignHandler) GetCampaigns(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-func (h *campaignHandler) GetCampaign(c *gin.Context) {
+func (h *campaignHandler) GetCampaignDetail(c *gin.Context) {
 	var input campaign.CampaignDetailInput
 
 	err := c.ShouldBindUri(&input)
